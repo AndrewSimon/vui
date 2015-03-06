@@ -1,0 +1,17 @@
+Vagrantfile
+Vagrantfile.sav
+scripts/
+manifests/
+VirtualBox VMs/
+boxes/
+data/
+templates/
+embedded/
+bin/
+insecure_private_key
+.vagrant/
+.vagrant.d/
+.ssh/
+.htaccess
+.htpasswd
+
