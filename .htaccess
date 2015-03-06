@@ -1,0 +1,29 @@
+## Created by asimon - 2/2015
+##
+##  If uncommenting breaks VUI - it is an configuration issue
+## E.G. if your .htpasswd file path is not correct
+## uncommenting AuthUserFile will break VUI
+## Keep all entries commented until you sort out the issues
+
+## This denies Vagrantfile which is often under vui htdoc path
+<Files Vagrantfile>
+Deny from all
+</Files>
+
+## Below are environment variables for Amazon AWS
+## To be used in the Vagrantfile for provisioners
+## like Chef or Puppet
+## Note: .htaccess ENV values are only available to PHP, not Ruby(!) 
+## you need to add Ruby code to Vagrantfile to parse .htaccess
+
+##SetEnv AWS_KEY AaBbCcDdEe
+##SetEnv AWS_SECRET ABCdefgHIJKlmnopQRSTuvwzyz+012345678
+##SetEnv AWS_KEYNAME "myKeys"
+##SetEnv AWS_KEYPATH /path/to/mysshkey.pem
+
+## Uncomment below to use Basic Auth
+## The default .htpasswd sets id 'vui' with NO PASSWORD
+#AuthType Basic
+#AuthName 'VUI'
+#AuthUserFile /path/to/vui/.htpasswd
+#require valid-user
