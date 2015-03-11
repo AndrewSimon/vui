@@ -5,9 +5,13 @@
 ## uncommenting AuthUserFile will break VUI
 ## Keep all entries commented until you sort out the issues
 
-## This denies Vagrantfile which is often under vui htdoc path
-<Files Vagrantfile>
+## This denies all files under vui htdoc path as default
+Order deny,allow
 Deny from all
+
+## This allows ONLY vui files. If you add/rename files, update here, too.
+<Files ~ "(index.php|vui.js|style.css|progress.css|serverup.png|serverdown.png)">
+Allow from all
 </Files>
 
 ## Below are environment variables for Amazon AWS
@@ -22,7 +26,7 @@ Deny from all
 ##SetEnv AWS_KEYPATH /path/to/mysshkey.pem
 
 ## Uncomment below to use Basic Auth
-## The default .htpasswd sets id 'vui' with NO PASSWORD
+## The default .htpasswd sets id 'vui' with password 'vui'
 #AuthType Basic
 #AuthName 'VUI'
 #AuthUserFile /path/to/vui/.htpasswd
