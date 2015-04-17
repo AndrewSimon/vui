@@ -24,6 +24,9 @@ $code=$_POST['code'];
 $s = preg_replace('/\s+/', ' ', $s);
 $s=current(explode(' ',$s));
 
+//Browser cookie auth
+// include_once 'js/auth.js';
+
 ## Uncomment to allow frame/iframe access
 #header('Access-Control-Allow-Origin: *'); 
 

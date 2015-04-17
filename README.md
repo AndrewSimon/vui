@@ -67,6 +67,8 @@ Alias /vui/ "/var/www/vui/"
 
 7) Secure vui using Basic Auth, if desired. Default .htaccess and .htpasswd provided.
 
+8) Secure vui using local cookie, if desired. Default js/auth.js provided.
+
 ### VUI Configuration Instructions:
 
 #### Edit the vui/code/config.php configuration file
