@@ -95,7 +95,7 @@ if($action=="initialize") {
 	}
 if($action=="box_add") {
 		$boxname=pathinfo($target, PATHINFO_FILENAME);
-		runCode("/usr/bin/vagrant box add $target --name $boxname 2>&1");
+		runCode("/usr/bin/vagrant box add $target --name $boxname --force 2>&1");
 	}
 if($action=="plugin_reinstall") {
 	exec("/usr/bin/vagrant plugin list | grep $target >/dev/null",$output);
