@@ -25,7 +25,6 @@ function runCode($vcmd,$cnt)
   global $VAGRANT_HOME;
   global $VAGRANT_URI;
   global $VAGRANT_HOST;
-  global $VAGRANT_PROVIDER;
   $ret = "";
 /* ALL ACTIONS GET SIMPLE BODY IN SEPARATE WINDOW */
   $cnt=999;
@@ -40,8 +39,7 @@ function runCode($vcmd,$cnt)
 	<span id=warn>No usable default provider could be found for your system.
 	<P>If not using Virtualbox, please select 
 	from the long list of provider plugins at the bottom of this page.
-	<P>NOTE: Please specify the provider name (not plugin name) in your VAGRANT_PROVIDER setting in config.php</P>
-	<P>For example, if the provider is Amazon EC2, install the 'vagrant-aws' plugin, and edit config.php VAGRANT_PROVIDER to say VAGRANT_PROVIDER=aws
+	<P>For example, if the provider is Amazon EC2, install the 'vagrant-aws' plugin
 
 </span><BR/> ";
 	
@@ -49,13 +47,17 @@ function runCode($vcmd,$cnt)
         echo "<p><span id=warn><b><font=+1>Select 'Cleanup', 
 		then select 'Destroy' to fix the error below</font></b></span></p>";
         } elseif (strpos($line,"not created") && !strpos($line," is not created")) {
+	// Removes extra spaces
 	$s = preg_replace('/\s+/', ' ', $line);
 	$s=current(explode(' ',$s));
+	preg_match('#\((.*?)\)#', $line, $provider);
+	$provider=$provider[1];
+//	echo "<script>alert('".$provider."')</script>";
         echo "<tr><td style='border:1px solid #DDD';>
 	<img src=images/serverdown.png alt=not_created height=42 width=42>&nbsp;&nbsp;" . $line . "</td>
 	<td style='border:1px solid #DDD';> 
-	<a class=btn onClick=\"ConfirmAction('$s','$VAGRANT_HOST$VAGRANT_URI/index.php?action=start&s=$s&r=$cnt');\"> Start </a></td>
-	<td style='border:1px solid #DDD';> <a class=btn-blue onClick=\"ConfirmAction('$s','$VAGRANT_HOST$VAGRANT_URI/index.php?action=status&s=$s&r=999');\">  Details</a></td></tr>\n";
+	<a class=btn onClick=\"ConfirmAction('$s','$VAGRANT_HOST$VAGRANT_URI/index.php?action=start&provider=$provider&s=$s&r=$cnt');\"> Start </a></td>
+	<td style='border:1px solid #DDD';> <a class=btn-blue onClick=\"ConfirmAction('$s','$VAGRANT_HOST$VAGRANT_URI/index.php?action=status&provider=$provider&s=$s&r=999');\">  Details</a></td></tr>\n";
         } elseif (strpos($line,"To stop this")) {
         echo "<tr><td>The instance is running. To stop and destroy this machine, click `Action` button and select the `Destroy` option. </td><td></td><td></td></tr>\n";
         } elseif (empty($line)) {
@@ -78,25 +80,30 @@ function runCode($vcmd,$cnt)
 		$s = preg_replace('/\s+/', ' ', $line);
 		$s=current(explode(' ',$s));
 		if (strpos($line,"stopp")||strpos($line,"poweroff"))  {
+		preg_match('#\((.*?)\)#', $line, $provider);
+		$provider=$provider[1];
                echo "<tr><td style='border:1px solid #DDD';>
 		<img src=images/serverdown.png alt=not_created height=42 width=42>&nbsp;&nbsp;" . $line . "</td>";
 	       echo "
                <td style='border:1px solid #DDD';> 
                 <select onChange=\"ConfirmAction('$s',this.value);\">
                 <option>Action</option>";
-                echo "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=start&s=$s&r=$cnt >Start</option>
+                echo "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=start&provider=$provider&s=$s&r=$cnt >Start</option>
                 <option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=reload&s=$s&r=$cnt >Reload</option>
                 <option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=destroy&s=$s&r=$cnt >Destroy</option>
-                <option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=cleanup_$VAGRANT_PROVIDER&s=$s&r=$cnt >Cleanup</option>";
+                <option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=cleanup_$provider&s=$s&r=$cnt >Cleanup</option>";
 		} elseif (strpos($line,"inaccessible")) {
+		preg_match('#\((.*?)\)#', $line, $provider);
+		$provider=$provider[1];
                 echo "<tr><td style='border:1px solid #DDD';>
 		<img src=images/serverdown.png alt=not_created height=42 width=42>&nbsp;&nbsp;" . $line . "</td>";
 	        echo "
                 <td style='border:1px solid #DDD';> 
                 <select onChange=\"ConfirmAction('$s',this.value);\">
                 <option >Action</option>";
-                echo "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=cleanup_$VAGRANT_PROVIDER&s=$s&r=$cnt >Cleanup</option>";
+                echo "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=cleanup_$provider&s=$s&r=$cnt >Cleanup</option>";
 		} else {
+		preg_match('#\((.*?)\)#', $line, $provider);
                echo "<tr><td style='border:1px solid #DDD';>
 		<img src=images/serverup.png alt=not_created height=42 width=42>&nbsp;&nbsp;" . $line . "</td>";
 	       echo "

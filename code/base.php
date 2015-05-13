@@ -115,7 +115,7 @@ function hideEditor".$cnt."()
   echo $ret;
 }
 
-function pageBody($action,$s,$cnt)
+function pageBody($action,$p,$s,$cnt)
 {
 global $VAGRANT_HOME; global $VAGRANT_HOST; 
 global $VAGRANT_FILE; global $VAGRANT_URI; 
@@ -134,7 +134,7 @@ if($VAGRANT_HOME !== "" && isset($VAGRANT_HOME) && file_exists($VAGRANT_FILE)) {
 if($VAGRANT_HOME === "" || !isset($VAGRANT_HOME) || !file_exists($VAGRANT_FILE)) {
   echo "";
 } else {
-	action($action,$s,$cnt);
+	action($action,$p,$s,$cnt);
         include 'code/edit.php';
         include 'code/data.php';
 	linkList($cnt);
@@ -205,7 +205,7 @@ function hideEditor".$cnt."()
 if ($VAGRANT_HOME != "" && !file_exists($VAGRANT_FILE)) {
         if($action=="initialize") {
 		echo "<div id=box>";
-		if(action($action,$s,$cnt)) {
+		if(action($action,$p,$s,$cnt)) {
 			echo "";
 		} else {
 		echo "

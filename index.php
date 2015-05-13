@@ -19,7 +19,11 @@
  * limitations under the License.
 */
 
+/* Disable strict and notices reporting */
+error_reporting(E_ALL & ~(E_STRICT|E_NOTICE|E_WARNING));
+
 $action=$_GET['action']; $s=$_GET['s'];  $r=$_GET['r']; 
+if(isset($_GET['provider'])) { $p=$_GET['provider'];}
 $code=$_POST['code'];
 $s = preg_replace('/\s+/', ' ', $s);
 $s=current(explode(' ',$s));
@@ -47,7 +51,7 @@ pageHeader($PAGE_TITLE);
 echo "";
 }
 
-pageBody($action,$s,$r);
+pageBody($action,$p,$s,$r);
 
 if($r == "0") {
 pageFooter();

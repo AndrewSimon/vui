@@ -23,8 +23,8 @@
 if(isset($_GET['action'])) { $action=$_GET['action']; }
 if(isset($_GET['code'])) { $code=$_POST['code']; }
 
-function action($action,$target,$cnt) {
-global $VAGRANT_HOME; global $VAGRANT_PROVIDER; 
+function action($action,$provider,$target,$cnt) {
+global $VAGRANT_HOME;
 global $VAGRANT_FILE; global $VAGRANT_HOST; global $code;
 $target=strtok($target, " ");
 $host=$_SERVER['HTTP_HOST'];
@@ -46,7 +46,7 @@ if($action=="kill") {
 	}
 if($action=="start") {
 	echo "<h3>Starting vm named: $target... </h3><br/>Additional information below";
-	runCode("/usr/bin/vagrant up $target --provider $VAGRANT_PROVIDER 2>&1",$cnt);
+	runCode("/usr/bin/vagrant up $target --provider $provider 2>&1",$cnt);
 	}
 if($action=="stop") {
 	echo "<h3>Stopping $target... </h3>";
@@ -81,7 +81,7 @@ if($action=="package") {
 	runCode("/usr/bin/vagrant package --base $target --output $target --output $target.box 2>&1",$cnt);
 	}
 if($action=="ssh-config") {
-	runCode("echo -n 'Id ' ; echo `/bin/cat ./.vagrant/machines/$target/$VAGRANT_PROVIDER/id` ; /usr/bin/vagrant ssh-config $target 2>&1",$cnt);
+	runCode("echo -n 'Id ' ; echo `/bin/cat ./.vagrant/machines/$target/$provider/id` ; /usr/bin/vagrant ssh-config $target 2>&1",$cnt);
 	}
 if($action=="plugin_list") {
 	runCode("/usr/bin/vagrant plugin list 2>&1");

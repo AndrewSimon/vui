@@ -57,9 +57,6 @@ $VAGRANT_HOME="HOME=/var/www";
 ## directory as vui index.php if you let vui initialize your environment
 $VAGRANT_FILE="/var/www/vui/Vagrantfile";
 
-## The provider (all lower-case letters) for this host, e.g. virtualbox, aws, vmware, xen
-$VAGRANT_PROVIDER="virtualbox";
-
 ### WEB ENVIRONMENT ON THIS SERVER (REQUIRED)
 
 ## The fully qualified host name or IP of THIS server. 
