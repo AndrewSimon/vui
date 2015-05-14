@@ -21,10 +21,10 @@ vagrant-hostsupdater
 vagrant-hp
 vagrant-iijgp
 vagrant-joyent
-vagrant-kvm
 vagrant-librarian-chef
 vagrant-librarian-puppet
 vagrant-libvirt
+vagrant-linode
 vagrant-list
 vagrant-lxc
 vagrant-managed-servers
@@ -47,6 +47,7 @@ vagrant-pristine
 vagrant-protect
 vagrant-proxmox
 vagrant-puppet-install
+vagrant-r10k
 vagrant-rackspace
 vagrant-rspec-ci
 vagrant-sakura
@@ -56,7 +57,6 @@ vagrant-sprinkle
 vagrant-vcloud
 vagrant-vsphere
 vagrant-windows
-vagrantweb
 copy-my-conf
 docker-provider
 landrush
@@ -65,5 +65,6 @@ nugrant
 rubber
 ruby-vagrantboxes
 sahara
+vagrantweb
 ventriloquist
 vocker
