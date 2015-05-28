@@ -102,6 +102,7 @@ function runCode($vcmd,$cnt)
                 <select onChange=\"ConfirmAction('$s',this.value);\">
                 <option >Action</option>";
                 echo "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=cleanup_$provider&s=$s&r=$cnt >Cleanup</option>";
+        	} elseif (stripos($line,"take a few minutes")) { echo "$line<BR/>"; 
 		} else {
 		preg_match('#\((.*?)\)#', $line, $provider);
                echo "<tr><td style='border:1px solid #DDD';>

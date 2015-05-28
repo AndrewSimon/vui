@@ -59,8 +59,11 @@ $s=$_SERVER['HTTP_HOST'];
     $ret .= "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=kill&r=999>Kill Vagrant Tasks</option>";
 // Build box list from glob of home dir
     $home = getenv('HOME');
-    $ret .= "<optgroup label='Add box file (.box files copied to $home will appear here)'>";
-    foreach (glob("$home/*.box") as $boxfile) {
+    $ret .= "<optgroup label='Add box file (.box files copied to $home/boxes will appear here)'>";
+    if (!file_exists("$home/boxes")) {
+   	 mkdir("$home/boxes", 0777, true);
+    }
+    foreach (glob("$home/boxes/*.box") as $boxfile) {
     $ret .= "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=box_add&s=$boxfile&r=999>$boxfile</option>".PHP_EOL;
     }
     $ret .= "</optgroup>";
@@ -70,7 +73,7 @@ $s=$_SERVER['HTTP_HOST'];
 
 $file_array = file("code/plugin_list");
 foreach ($file_array as $plugin)
-  $ret .= "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=plugin_reinstall&s=$plugin&r=999>$plugin plugin</option>".PHP_EOL;
+  $ret .= "<option value=$VAGRANT_HOST$VAGRANT_URI/index.php?action=plugin_reinstall&s=".trim($plugin)."&r=999>$plugin plugin</option>".PHP_EOL;
 
     $ret .= "</optgroup>";
     $ret .= "</select></div>";

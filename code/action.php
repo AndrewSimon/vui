@@ -22,12 +22,15 @@
 
 if(isset($_GET['action'])) { $action=$_GET['action']; }
 if(isset($_GET['code'])) { $code=$_POST['code']; }
+if(isset($_GET['s'])) { $TARGET=$_GET['s']; }
 
 function action($action,$provider,$target,$cnt) {
-global $VAGRANT_HOME;
+global $VAGRANT_HOME; global $VAGRANT_URI;
 global $VAGRANT_FILE; global $VAGRANT_HOST; global $code;
 $target=strtok($target, " ");
 $host=$_SERVER['HTTP_HOST'];
+global $TARGET;
+
 
 echo "<div id=progress$cnt class=progress ><div> </div></div>";
 
@@ -57,7 +60,7 @@ if($action=="destroy") {
 	runCode("/usr/bin/vagrant destroy -f $target 2>&1",$cnt);
 	}
 if($action=="list_boxes") {
-	runCode("/usr/bin/vagrant box list 2>&1",$cnt);
+	runCode("/usr/bin/vagrant box list 2>&1 |sed 's/ //g'|xargs -I O -L 1 echo '</tr><tr><td colspan=2>O</td><td><a href=# onClick=\"ConfirmAction('\''O'\'','\''$VAGRANT_HOST$VAGRANT_URI/index.php?action=box_del&s=O&r=999'\'');\"</a>' Remove", $cnt);
 	}
 if($action=="") {
 /* 	Run this for DEBUG
@@ -78,13 +81,21 @@ if($action=="reload") {
 	runCode("/usr/bin/vagrant reload $target 2>&1",$cnt);
 	}
 if($action=="package") {
-	runCode("/usr/bin/vagrant package --base $target --output $target --output $target.box 2>&1",$cnt);
+	runCode("/usr/bin/vagrant package --base $target --output $target --output boxes/$target.box 2>&1",$cnt);
 	}
 if($action=="ssh-config") {
 	runCode("echo -n 'Id ' ; echo `/bin/cat ./.vagrant/machines/$target/$provider/id` ; /usr/bin/vagrant ssh-config $target 2>&1",$cnt);
 	}
+if($action=="box_del") {
+	$p = strtr($target, '\(,)0' , '@@@@');
+	$provider = explode('@',$p)[1];
+	runCode("echo '$target'| awk -F'(' '{print $1}' |xargs -I O /usr/bin/vagrant box remove O --provider $provider", $cnt);
+	}
+if($action=="plugin_del") {
+	runCode("/usr/bin/vagrant plugin uninstall $target 2>&1 && echo 'Plugin DELETED!!!'", $cnt);
+	}
 if($action=="plugin_list") {
-	runCode("/usr/bin/vagrant plugin list 2>&1");
+	runCode("/usr/bin/vagrant plugin list 2>&1  | awk '{print $1}' | xargs -I O -L 1 echo '</tr><tr><td colspan=2>O</td><td><a href=# onClick=\"ConfirmAction('\''O'\'','\''$VAGRANT_HOST$VAGRANT_URI/index.php?action=plugin_del&s=O&r=999'\'');\"</a>' Uninstall", $cnt);
 	}
 if($action=="cleanup_virtualbox") {
 	$path="VirtualBox\ VMs/";
@@ -100,7 +111,7 @@ if($action=="box_add") {
 if($action=="plugin_reinstall") {
 	exec("/usr/bin/vagrant plugin list | grep $target >/dev/null",$output);
 	if($output!="") {
-		runCode("/usr/bin/vagrant plugin uninstall $target 2>&1");
+		runCode("/usr/bin/vagrant plugin uninstall $target >/dev/null 2>/dev/null ");
 	}
 	runCode("sleep 3");
 	runCode("/usr/bin/vagrant plugin install $target 2>&1");

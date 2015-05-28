@@ -33,6 +33,8 @@ function ConfirmAction(s,url) {
         var h = new URL(url);
         var host = h.hostname;
         if(msg=='plugin_list') msg='a plugin listing';
+        if(msg=='plugin_del') msg='delete '+target+' plugin';
+        if(msg=='box_del') msg='delete box named '+target ;
         if(msg=='list_boxes') msg='a box listing';
         if(msg=='box_add') msg='add '+target+' box file';
         if(msg=='kill') msg='kill hung vagrant tasks';
@@ -61,7 +63,7 @@ newdocument=newwindow.document;
 newdocument.write('<link href=\'styles/progress.css\' rel=\'stylesheet\' type=\'text/css\' /> <link href=\'styles/progress.css\' rel=\'stylesheet\' type=\'text/css\' /><span id=warn>Running '+msg+' on '+host+', please wait...<div id=progress$cnt class=progress ><div> </div></div>');
 window.open(url, s, 'toolbar=yes, scrollbars=yes, resizable=yes, top=120, left=200, width=800, height=860');
                 } else {
-                alert(action+' on '+s+' canceled!');
+                alert(msg+' on '+s+' canceled!');
                 }
         }
 }
